@@ -6,17 +6,47 @@ labels: "pre-demo"
 ---
 
 ## Task
-Set up the Azure Static Web App before the live demo begins. This gets the blank pages deployed to Azure so the live URL is accessible from the start of the demo.
+Set up the Azure Static Web App before the live demo begins using **CLI commands only** — no Azure Portal access required. Copilot will handle the deployment end-to-end and ask the user for information only when needed.
 
-### Steps
-1. Go to the [Azure Portal](https://portal.azure.com) and create a new **Static Web App**
-2. Connect it to this GitHub repository (select the `main` branch)
-3. Set `app_location` to `/` and leave `output_location` blank
-4. Copy the **deployment token** from the Azure Portal
-5. In this repository, go to **Settings → Secrets and variables → Actions**
-6. Add a new secret named `AZURE_STATIC_WEB_APPS_API_TOKEN` and paste the token
-7. Go to the **Actions** tab in this repository, select the **Azure Static Web Apps CI/CD** workflow, and click **Run workflow** to manually trigger the deployment
-8. Verify the live URL is accessible before going on stage
+### Steps (automated via CLI)
+1. **Authenticate with Azure** — Run `az login` to sign in. If the user has multiple subscriptions, ask which one to use and set it with `az account set --subscription <id>`.
+2. **Create a resource group** (if needed) — Run `az group create --name <name> --location <region>`. Ask the user for a preferred resource group name and Azure region, or suggest defaults (e.g., `rg-static-web-demo`, `westeurope`).
+3. **Create the Static Web App** — Run:
+   ```bash
+   az staticwebapp create \
+     --name <app-name> \
+     --resource-group <rg-name> \
+     --source https://github.com/<owner>/<repo> \
+     --branch main \
+     --app-location "/" \
+     --output-location "" \
+     --login-with-github
+   ```
+   Ask the user for a preferred app name or suggest a default.
+4. **Retrieve the deployment token** — Run:
+   ```bash
+   az staticwebapp secrets list --name <app-name> --resource-group <rg-name> --query "properties.apiKey" -o tsv
+   ```
+5. **Store the token as a GitHub Actions secret** — Run:
+   ```bash
+   gh secret set AZURE_STATIC_WEB_APPS_API_TOKEN --body "<token>"
+   ```
+6. **Trigger the deployment workflow** — Run:
+   ```bash
+   gh workflow run "Azure Static Web Apps CI/CD" --ref main
+   ```
+7. **Verify the deployment** — Retrieve the live URL with:
+   ```bash
+   az staticwebapp show --name <app-name> --resource-group <rg-name> --query "defaultHostname" -o tsv
+   ```
+   Then confirm the URL is accessible (e.g., `curl -s -o /dev/null -w "%{http_code}" https://<hostname>`).
+
+8. **Update `azure_resource.md`** — After successful deployment, update the `azure_resource.md` file in the repository root with the actual resource details (subscription, resource group, app name, region, live URL, default hostname). Commit and push the change so the deployment info is tracked in the repo.
+
+### What the agent asks the user (only if needed)
+- Azure subscription (if multiple exist)
+- Preferred resource group name and region (or confirm defaults)
+- Preferred Static Web App name (or confirm default)
 
 > ✅ Once this issue is complete, the app is live and the live demo can begin at **Issue #2**.
 
