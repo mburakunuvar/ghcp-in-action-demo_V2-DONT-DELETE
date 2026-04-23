@@ -1,6 +1,6 @@
 # template-azureapp.md
 
-Purpose: Reusable template to accelerate resolving Issue #1 (Azure Static Web App Setup pre-demo) without modifying any repository files or GitHub workflow files.
+Purpose: Reusable template to accelerate resolving Issue #1 (Azure Static Web App Setup) without modifying any repository files or GitHub workflow files.
 
 ## Scope Guardrails
 

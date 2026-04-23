@@ -15,7 +15,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh label create "pre-demo"     --repo ${{ github.repository }} --color "D93F0B" --description "Pre-demo setup tasks"            --force
+          gh label create "init-demo"    --repo ${{ github.repository }} --color "D93F0B" --description "Initial demo setup tasks"          --force
           gh label create "coding-agent" --repo ${{ github.repository }} --color "0E8A16" --description "Assigned to GitHub Coding Agent"  --force
           gh label create "copilot-cli"  --repo ${{ github.repository }} --color "1D76DB" --description "Assigned to Copilot CLI"          --force
           gh label create "agent-mode"   --repo ${{ github.repository }} --color "5319E7" --description "Assigned to Agent Mode in IDE"    --force
@@ -41,7 +41,7 @@ jobs:
         run: |
           gh issue create \
             --repo ${{ github.repository }} \
-            --label "pre-demo" \
+            --label "init-demo" \
             --title "Azure Static Web App Setup (Pre-demo)" \
             --body "## Task
           Set up the Azure Static Web App before the live demo begins using **CLI commands only**. This gets the blank pages deployed to Azure so the live URL is accessible from the start of the demo.
