@@ -26,7 +26,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          FOUND=$(gh issue list --repo ${{ github.repository }} --state all --search "Azure Static Web App Setup (Pre-demo) in:title" --json number --jq 'length')
+          FOUND=$(gh issue list --repo ${{ github.repository }} --state all --search "Azure Static Web App Setup in:title" --json number --jq 'length')
           if [ "$FOUND" -gt 0 ]; then
             echo "Demo issues already exist. To re-create, close/delete existing demo issues first."
             echo "skip=true" >> $GITHUB_OUTPUT
@@ -42,39 +42,19 @@ jobs:
           gh issue create \
             --repo ${{ github.repository }} \
             --label "init-demo" \
-            --title "Azure Static Web App Setup (Pre-demo)" \
+            --title "Azure Static Web App Setup" \
             --body "## Task
-          Set up the Azure Static Web App before the live demo begins using **CLI commands only**. This gets the blank pages deployed to Azure so the live URL is accessible from the start of the demo.
+          Create an Azure Static Web App and deploy the repo to it.
 
-          ### Steps (automated via CLI)
-          1. **Authenticate with Azure** — Run \`az login\`. If multiple subscriptions exist, select one with \`az account set --subscription <id>\`.
-          2. **Create a resource group** — Run \`az group create --name <name> --location <region>\`.
-          3. **Create the Static Web App** — Run:
-             \`\`\`bash
-             az staticwebapp create --name <app-name> --resource-group <rg-name> --location <region> --sku Free
-             \`\`\`
-          4. **Retrieve the deployment token** — Run:
-             \`\`\`bash
-             az staticwebapp secrets list --name <app-name> --resource-group <rg-name> --query \"properties.apiKey\" -o tsv
-             \`\`\`
-          5. **Store the token as a GitHub Actions secret** — Run:
-             \`\`\`bash
-             gh secret set AZURE_STATIC_WEB_APPS_API_TOKEN --body \"<token>\"
-             \`\`\`
-          6. **Trigger the deployment workflow** — Run:
-             \`\`\`bash
-             gh workflow run \"Azure Static Web Apps CI/CD\"
-             \`\`\`
-          7. **Verify the live URL** — Retrieve the hostname and confirm it responds:
-             \`\`\`bash
-             az staticwebapp show --name <app-name> --resource-group <rg-name> --query \"defaultHostname\" -o tsv
-             \`\`\`
-          8. **Update \`azure_resource.md\`** — Fill in the actual resource details (subscription, resource group, app name, region, live URL). Commit and push the change.
-
-          > ✅ Once this issue is complete, the app is live and the live demo can begin at the **Scaffold and Beautify the Home Page** issue.
-
-          ## Note
-          This issue is done **before** the live demo — not during. Close it once the live URL is confirmed working."
+          ### Steps
+          1. \`az login\`
+          2. \`az group create --name <rg-name> --location <region>\`
+          3. \`az staticwebapp create --name <app-name> --resource-group <rg-name> --source https://github.com/<owner>/<repo> --branch main --app-location \"/\" --output-location \"\" --login-with-github\`
+          4. \`az staticwebapp secrets list --name <app-name> --resource-group <rg-name> --query \"properties.apiKey\" -o tsv\`
+          5. \`gh secret set AZURE_STATIC_WEB_APPS_API_TOKEN --body \"<token>\"\`
+          6. \`gh workflow run \"Azure Static Web Apps CI/CD\"\`
+          7. Verify the live URL: \`az staticwebapp show --name <app-name> --resource-group <rg-name> --query \"defaultHostname\" -o tsv\`
+          8. Update \`azure_resource.md\` with the actual resource details, commit and push."
 
       - name: Issue 2 — Scaffold and Beautify the Home Page
         if: steps.check.outputs.skip == 'false'
