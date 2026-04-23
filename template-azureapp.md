@@ -4,9 +4,8 @@ Purpose: Reusable template to accelerate resolving Issue #1 (Azure Static Web Ap
 
 ## Scope Guardrails
 
-- Do not edit any existing repository file.
 - Do not edit any file under .github/workflows.
-- Only perform infrastructure setup, secret setup, workflow trigger, and verification.
+- Only perform infrastructure setup, secret setup, workflow trigger, verification, and `azure_resource.md` update.
 
 ## Reusable Prompt (Copy/Paste)
 

@@ -1,7 +1,7 @@
 # Azure Resource Details
 
-> This file is automatically updated by the Azure Static Web App setup process (Issue #1).
-> Do not edit manually — values are populated after a successful deployment.
+> Update this file manually during the **Azure Static Web App Setup** issue (Issue #1).
+> Fill in the actual values after a successful deployment so the team can reference them.
 
 | Property | Value |
 |---|---|

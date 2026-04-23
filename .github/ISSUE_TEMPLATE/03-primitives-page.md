@@ -13,6 +13,8 @@ Use `template-primitives.txt` in the repo root for the content — the eight pri
 
 Source reference: https://github.com/microsoftnorman/customize-your-repo-with-github-copilot
 
+> ⚠️ **Prerequisite**: The **Scaffold and Beautify the Home Page** issue must be completed and its PR merged first, so the home page structure is available to follow.
+
 ## Assigned to
 Copilot CLI — use `gh copilot suggest` from the terminal to scaffold this page.
 
@@ -21,4 +23,4 @@ Once the page is built:
 1. Commit the changes
 2. Pull and rebase from remote: `git pull --rebase origin main`
 3. Push to remote: `git push origin main`
-4. Close this issue: `gh issue close 3`
+4. Close this issue from the GitHub UI or with `gh issue close <this-issue-number>`

@@ -1,17 +1,12 @@
 name: Setup Demo Issues
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 jobs:
   create-issues:
     name: Create demo issues
     runs-on: ubuntu-latest
-    # On push: only run on the very first commit (repo created from template).
-    # On workflow_dispatch: always run (manual fallback).
-    if: github.event_name == 'workflow_dispatch' || github.event.before == '0000000000000000000000000000000000000000'
     permissions:
       issues: write
 
@@ -26,16 +21,21 @@ jobs:
           gh label create "agent-mode"   --repo ${{ github.repository }} --color "5319E7" --description "Assigned to Agent Mode in IDE"    --force
           gh label create "post-demo"    --repo ${{ github.repository }} --color "FBCA04" --description "Post-demo cleanup tasks"          --force
 
-      - name: Check if issues already exist
+      - name: Check if demo issues already exist
         id: check
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          COUNT=$(gh issue list --repo ${{ github.repository }} --state all --json number --jq 'length')
-          echo "issue_count=$COUNT" >> $GITHUB_OUTPUT
+          FOUND=$(gh issue list --repo ${{ github.repository }} --state all --search "Azure Static Web App Setup (Pre-demo) in:title" --json number --jq 'length')
+          if [ "$FOUND" -gt 0 ]; then
+            echo "Demo issues already exist. To re-create, close/delete existing demo issues first."
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: Issue 1 — Azure Static Web App Setup
-        if: steps.check.outputs.issue_count == '0'
+        if: steps.check.outputs.skip == 'false'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -44,25 +44,40 @@ jobs:
             --label "pre-demo" \
             --title "Azure Static Web App Setup (Pre-demo)" \
             --body "## Task
-          Set up the Azure Static Web App before the live demo begins. This gets the blank pages deployed to Azure so the live URL is accessible from the start of the demo.
+          Set up the Azure Static Web App before the live demo begins using **CLI commands only**. This gets the blank pages deployed to Azure so the live URL is accessible from the start of the demo.
 
-          ### Steps
-          1. Go to the [Azure Portal](https://portal.azure.com) and create a new **Static Web App**
-          2. Connect it to this GitHub repository (select the \`main\` branch)
-          3. Set \`app_location\` to \`/\` and leave \`output_location\` blank
-          4. Copy the **deployment token** from the Azure Portal
-          5. In this repository, go to **Settings → Secrets and variables → Actions**
-          6. Add a new secret named \`AZURE_STATIC_WEB_APPS_API_TOKEN\` and paste the token
-          7. Go to the **Actions** tab in this repository, select the **Azure Static Web Apps CI/CD** workflow, and click **Run workflow** to manually trigger the deployment
-          8. Verify the live URL is accessible before going on stage
+          ### Steps (automated via CLI)
+          1. **Authenticate with Azure** — Run \`az login\`. If multiple subscriptions exist, select one with \`az account set --subscription <id>\`.
+          2. **Create a resource group** — Run \`az group create --name <name> --location <region>\`.
+          3. **Create the Static Web App** — Run:
+             \`\`\`bash
+             az staticwebapp create --name <app-name> --resource-group <rg-name> --location <region> --sku Free
+             \`\`\`
+          4. **Retrieve the deployment token** — Run:
+             \`\`\`bash
+             az staticwebapp secrets list --name <app-name> --resource-group <rg-name> --query \"properties.apiKey\" -o tsv
+             \`\`\`
+          5. **Store the token as a GitHub Actions secret** — Run:
+             \`\`\`bash
+             gh secret set AZURE_STATIC_WEB_APPS_API_TOKEN --body \"<token>\"
+             \`\`\`
+          6. **Trigger the deployment workflow** — Run:
+             \`\`\`bash
+             gh workflow run \"Azure Static Web Apps CI/CD\"
+             \`\`\`
+          7. **Verify the live URL** — Retrieve the hostname and confirm it responds:
+             \`\`\`bash
+             az staticwebapp show --name <app-name> --resource-group <rg-name> --query \"defaultHostname\" -o tsv
+             \`\`\`
+          8. **Update \`azure_resource.md\`** — Fill in the actual resource details (subscription, resource group, app name, region, live URL). Commit and push the change.
 
-          > ✅ Once this issue is complete, the app is live and the live demo can begin at **Issue #2**.
+          > ✅ Once this issue is complete, the app is live and the live demo can begin at the **Scaffold and Beautify the Home Page** issue.
 
           ## Note
           This issue is done **before** the live demo — not during. Close it once the live URL is confirmed working."
 
       - name: Issue 2 — Scaffold and Beautify the Home Page
-        if: steps.check.outputs.issue_count == '0'
+        if: steps.check.outputs.skip == 'false'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -83,10 +98,13 @@ jobs:
           The blank HTML files (\`index.html\`, \`primitives.html\`, \`ape.html\`) already exist in the repo — no need to create the folder structure.
 
           ## Assigned to
-          GitHub Coding Agent — assign this issue to Copilot via the Assignees panel on GitHub.com."
+          GitHub Coding Agent — assign this issue to Copilot via the Assignees panel on GitHub.com.
+
+          ## Completion
+          Once the home page is built, merge the PR opened by the Coding Agent before moving on to the next issues."
 
       - name: Issue 3 — Primitives Page
-        if: steps.check.outputs.issue_count == '0'
+        if: steps.check.outputs.skip == 'false'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -102,6 +120,8 @@ jobs:
 
           Source reference: https://github.com/microsoftnorman/customize-your-repo-with-github-copilot
 
+          > ⚠️ **Prerequisite**: The **Scaffold and Beautify the Home Page** issue must be completed and its PR merged first, so the home page structure is available to follow.
+
           ## Assigned to
           Copilot CLI — use \`gh copilot suggest\` from the terminal to scaffold this page.
 
@@ -110,10 +130,10 @@ jobs:
           1. Commit the changes
           2. Pull and rebase from remote: \`git pull --rebase origin main\`
           3. Push to remote: \`git push origin main\`
-          4. Close this issue: \`gh issue close 3\`"
+          4. Close this issue from the GitHub UI or with \`gh issue close <this-issue-number>\`"
 
       - name: Issue 4 — Agentic Platform Engineering Page
-        if: steps.check.outputs.issue_count == '0'
+        if: steps.check.outputs.skip == 'false'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -129,19 +149,21 @@ jobs:
 
           Source reference: https://github.com/Azure/git-ape
 
+          > ⚠️ **Prerequisite**: The **Scaffold and Beautify the Home Page** issue must be completed and its PR merged first.
+
           ## Assigned to
           Agent Mode in IDE (VS Code) — use Copilot Chat in Agent Mode, referencing the existing pages for structure.
 
           ## Completion
           When the APE page is complete:
           1. Commit the changes
-          2. Pull and rebase from remote to incorporate any commits from Issues #2 and #3: \`git pull --rebase origin main\`
+          2. Pull and rebase from remote: \`git pull --rebase origin main\`
           3. Resolve any merge conflicts if they arise
           4. Push to remote: \`git push origin main\`
-          5. Close this issue: \`gh issue close 4\`"
+          5. Close this issue from the GitHub UI or with \`gh issue close <this-issue-number>\`"
 
       - name: Issue 5 — Azure Deployment
-        if: steps.check.outputs.issue_count == '0'
+        if: steps.check.outputs.skip == 'false'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -158,29 +180,25 @@ jobs:
           > \`\`\`
 
           For this step:
-          1. Confirm Issues #2 (Home Page), #3 (Primitives Page), and #4 (APE Page) are closed
+          1. Confirm the **Home Page**, **Primitives Page**, and **APE Page** issues are closed
           2. Verify the latest changes are live at the deployed URL
           3. If anything needs to be re-triggered, trigger the workflow manually using the command above
 
-          > ⚠️ **Prerequisite**: Issues #2 (Home), #3 (Primitives), and #4 (APE) must be closed before deployment. Code Review and Performance (Issue #6) happens after this step.
+          > ⚠️ **Prerequisite**: The **Home Page**, **Primitives**, and **APE** issues must be closed before deployment. The **Code Review and Performance** issue happens after this step.
 
           ## Assigned to
-          Agent Mode in IDE (VS Code) — prompt: *'Issues 2, 3, and 4 are resolved. Verify the app is deployed and the live site reflects all the latest changes. Trigger a re-deployment if needed.'*
+          Agent Mode in IDE (VS Code) — prompt: *'The Home Page, Primitives, and APE issues are resolved. Verify the app is deployed and the live site reflects all the latest changes. Trigger a re-deployment if needed.'*
 
           ## Pre-flight requirement
-          The presenter must have already completed Issue #1 (Azure Static Web App Setup):
+          The presenter must have already completed the **Azure Static Web App Setup** issue:
           - Azure Static Web App created and connected to this repository
           - \`AZURE_STATIC_WEB_APPS_API_TOKEN\` added to the repository secrets
 
           ## Completion
-          Once deployment is verified and the live site is confirmed working, close this issue:
-
-          \`\`\`bash
-          gh issue close 5 --repo ${{ github.repository }}
-          \`\`\`"
+          Once deployment is verified and the live site is confirmed working, close this issue from the GitHub UI or with \`gh issue close <this-issue-number>\`."
 
       - name: Issue 6 — Code Review and Performance
-        if: steps.check.outputs.issue_count == '0'
+        if: steps.check.outputs.skip == 'false'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -206,17 +224,13 @@ jobs:
           Copilot CLI — review the codebase, file the issues, generate the report.
 
           ## Note
-          This step happens after Azure Deployment (#5). The reviews target the live deployed app.
+          This step happens after the **Azure Deployment** issue. The reviews target the live deployed app.
 
           ## Completion
-          Once the issues are created, the report is generated, and changes are committed and pushed, close this issue:
-
-          \`\`\`bash
-          gh issue close 6 --repo ${{ github.repository }}
-          \`\`\`"
+          Once the issues are created, the report is generated, and changes are committed and pushed, close this issue from the GitHub UI or with \`gh issue close <this-issue-number>\`."
 
       - name: Issue 7 — Clean Up Azure Resources
-        if: steps.check.outputs.issue_count == '0'
+        if: steps.check.outputs.skip == 'false'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |

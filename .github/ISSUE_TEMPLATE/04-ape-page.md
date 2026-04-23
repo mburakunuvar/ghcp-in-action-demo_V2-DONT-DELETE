@@ -13,6 +13,8 @@ Use `template-ape.txt` in the repo root for the content — the three acts of ag
 
 Source reference: https://github.com/Azure/git-ape
 
+> ⚠️ **Prerequisite**: The **Scaffold and Beautify the Home Page** issue must be completed and its PR merged first.
+
 ## Assigned to
 Agent Mode in IDE (VS Code) — use Copilot Chat in Agent Mode, referencing the existing pages for structure.
 
@@ -22,4 +24,4 @@ When the APE page is complete:
 2. Pull and rebase from remote to incorporate any commits from Issues #2 and #3: `git pull --rebase origin main`
 3. Resolve any merge conflicts if they arise
 4. Push to remote: `git push origin main`
-5. Close this issue: `gh issue close 4`
+5. Close this issue from the GitHub UI or with `gh issue close <this-issue-number>`

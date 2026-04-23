@@ -11,7 +11,7 @@ Set up the Azure Static Web App before the live demo begins using **CLI commands
 ### Steps (automated via CLI)
 1. **Authenticate with Azure** — Run `az login` to sign in. If the user has multiple subscriptions, ask which one to use and set it with `az account set --subscription <id>`.
 2. **Create a resource group** (if needed) — Run `az group create --name <name> --location <region>`. Ask the user for a preferred resource group name and Azure region, or suggest defaults (e.g., `rg-static-web-demo`, `westeurope`).
-3. **Create the Static Web App** — Run:
+3. **Create the Static Web App** — Run (replace `<owner>/<repo>` with the actual GitHub repository, e.g. `mburakunuvar/ghcp-in-action-demo_v2-DONT-DELETE`):
    ```bash
    az staticwebapp create \
      --name <app-name> \

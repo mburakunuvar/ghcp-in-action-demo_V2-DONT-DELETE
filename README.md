@@ -42,12 +42,11 @@ By the end of the demo, a small web app has been:
 Before running this demo, make sure the following are in place:
 
 - A GitHub repository with **7 issues** (see [Getting Started](#getting-started) below to create them)
-- **Issue 1 completed and closed** — Azure Static Web App created, `AZURE_STATIC_WEB_APPS_API_TOKEN` added to repo secrets, and the live URL verified
 - **GitHub Copilot** enabled on the account and the repository
 - **VS Code** with the repo cloned locally and Agent Mode enabled
 - **Copilot CLI** installed and authenticated — verify with `gh auth status`
 
-> 🎬 **The live demo starts at Issue 2.** Issue 1 is pre-work done before going on stage.
+> 🎬 **The live demo starts at Issue 1.** All issues are worked through during the demo.
 
 ---
 
@@ -73,10 +72,10 @@ gh issue list --repo <owner>/<your-new-repo>
 
 ## Demo Scenarios
 
-### Issue 1 — Azure Static Web App Setup *(pre-demo)*
-**Tool**: Azure Portal / az CLI &nbsp;|&nbsp; **When**: Before the demo
+### Issue 1 — Azure Static Web App Setup
+**Tool**: Azure Portal / az CLI &nbsp;|&nbsp; **Surface**: Azure Portal
 
-Done before going on stage. Create an Azure Static Web App, connect it to the repo, add `AZURE_STATIC_WEB_APPS_API_TOKEN` to repo secrets, and verify the live URL. The deployment workflow is `workflow_dispatch` only — trigger it manually after setup to deploy the blank pages. The URL is live and visible to the audience from the moment the demo begins.
+Create an Azure Static Web App, connect it to the repo, add `AZURE_STATIC_WEB_APPS_API_TOKEN` to repo secrets, and verify the live URL. The deployment workflow is `workflow_dispatch` only — trigger it manually after setup to deploy the blank pages.
 
 ---
 
@@ -85,10 +84,14 @@ Done before going on stage. Create an Azure Static Web App, connect it to the re
 
 Copilot is assigned the issue directly from the GitHub Issues UI. The blank `index.html` already exists — the agent scaffolds and beautifies it as a **GitHub Copilot Across Surfaces** overview with a brief introduction to the four surfaces (GitHub.com, IDE, CLI, SDK) and two navigation buttons linking to `primitives.html` and `ape.html`. The agent opens a draft PR with its changes.
 
+> ⚠️ **Merge the Coding Agent's PR before starting Issues 3 and 4** — they depend on the home page structure.
+
 ---
 
 ### Issue 3 — Primitives Page
 **Tool**: Copilot CLI &nbsp;|&nbsp; **Surface**: Terminal
+
+> **Prerequisite**: Issue 2 PR must be merged first.
 
 From the terminal, Copilot CLI scaffolds the Primitives child page using a natural language prompt. The page covers the eight primitives of GitHub Copilot customization. The suggestion is reviewed, executed, and committed — without ever leaving the command line.
 
@@ -108,9 +111,9 @@ In VS Code, Agent Mode reads the existing page structure and builds a matching A
 ### Issue 5 — Azure Deployment
 **Tool**: Agent Mode &nbsp;|&nbsp; **Surface**: IDE (VS Code)
 
-> **⚠️ Prerequisite**: Issues #2 (Home Page), #3 (Primitives Page), and #4 (APE Page) must be closed before deployment. Code Review happens after this step.
+> **⚠️ Prerequisite**: Issues #1 (Azure Static Web App Setup), #2 (Home Page), #3 (Primitives Page), and #4 (APE Page) must be closed before deployment. Code Review happens after this step.
 
-The app is **already live** from the first push (Issue 1). Issue 5 is the deployment verification: Agent Mode confirms Issues 2–4 are closed, checks the existing `.github/workflows/azure-static-web-apps.yml` workflow, triggers a final deployment if needed, and the audience sees the fully built app at the live URL.
+Agent Mode confirms Issues 1–4 are closed, checks the existing `.github/workflows/azure-static-web-apps.yml` workflow, triggers the deployment, and the audience sees the fully built app at the live URL.
 
 ---
 
@@ -164,7 +167,7 @@ Trigger the existing Azure Static Web Apps workflow to deploy the updated applic
 
 | Issue | Task | Tool | Surface |
 |---|---|---|---|
-| 1 *(pre-demo)* | Azure Static Web App Setup | Azure Portal / az CLI | — |
+| 1 | Azure Static Web App Setup | Azure Portal / az CLI | Azure Portal |
 | 2 | Scaffold & Beautify Home Page | GitHub Coding Agent | GitHub.com |
 | 3 | Primitives Page | Copilot CLI | Terminal |
 | 4 | Agentic Platform Engineering Page | Agent Mode | IDE |

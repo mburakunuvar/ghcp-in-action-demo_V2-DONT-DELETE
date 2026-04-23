@@ -23,11 +23,7 @@ After filing the issues, generate a `suggested_improvements.md` report in the re
 Copilot CLI — review the codebase, file the issues, generate the report.
 
 ## Note
-This step happens after Azure Deployment (#5). The reviews target the live deployed app.
+This step happens after the **Azure Deployment** issue. The reviews target the live deployed app.
 
 ## Completion
-Once the issues are created, the report is generated, and changes are committed and pushed, close this issue:
-
-```bash
-gh issue close 6 --repo <owner/repo>
-```
+Once the issues are created, the report is generated, and changes are committed and pushed, close this issue from the GitHub UI or with `gh issue close <this-issue-number>`.
