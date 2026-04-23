@@ -41,13 +41,33 @@ By the end of the demo, a small web app has been:
 
 Before running this demo, make sure the following are in place:
 
-- A GitHub repository with **7 issues** (auto-created on first push by the setup workflow; 6 remain open after closing Issue 1)
+- A GitHub repository with **7 issues** (see [Getting Started](#getting-started) below to create them)
 - **Issue 1 completed and closed** — Azure Static Web App created, `AZURE_STATIC_WEB_APPS_API_TOKEN` added to repo secrets, and the live URL verified
 - **GitHub Copilot** enabled on the account and the repository
 - **VS Code** with the repo cloned locally and Agent Mode enabled
 - **Copilot CLI** installed and authenticated — verify with `gh auth status`
 
 > 🎬 **The live demo starts at Issue 2.** Issue 1 is pre-work done before going on stage.
+
+---
+
+## Getting Started
+
+After creating a new repo from this template, the **7 demo issues are not created automatically** — GitHub does not trigger workflows on the initial commit from a template.
+
+Run this command once to seed all issues and labels:
+
+```bash
+gh workflow run "Setup Demo Issues" --repo <owner>/<your-new-repo>
+```
+
+After ~30 seconds, verify the issues were created:
+
+```bash
+gh issue list --repo <owner>/<your-new-repo>
+```
+
+> 💡 You can also trigger the workflow from the **Actions** tab → **Setup Demo Issues** → **Run workflow**.
 
 ---
 
@@ -169,5 +189,5 @@ Trigger the existing Azure Static Web Apps workflow to deploy the updated applic
 | `template-primitives.txt` | Primitives content template (referenced by Issue #3) |
 | `template-ape.txt` | APE content template (referenced by Issue #4) |
 | `template-azureapp.md` | Reusable runbook for Azure Static Web App setup (Issue #1) |
-| `.github/workflows/setup-issues.yml` | Auto-creates issues and labels on first push |
+| `.github/workflows/setup-issues.yml` | Creates issues and labels — trigger manually after using the template (see [Getting Started](#getting-started)) |
 | `.github/workflows/azure-static-web-apps.yml` | Manual-trigger deployment to Azure Static Web Apps |
