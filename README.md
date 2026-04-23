@@ -84,14 +84,10 @@ Create an Azure Static Web App, connect it to the repo, add `AZURE_STATIC_WEB_AP
 
 Copilot is assigned the issue directly from the GitHub Issues UI. The blank `index.html` already exists — the agent scaffolds and beautifies it as a **GitHub Copilot Across Surfaces** overview with a brief introduction to the four surfaces (GitHub.com, IDE, CLI, SDK) and two navigation buttons linking to `primitives.html` and `ape.html`. The agent opens a draft PR with its changes.
 
-> ⚠️ **Merge the Coding Agent's PR before starting Issues 3 and 4** — they depend on the home page structure.
-
 ---
 
 ### Issue 3 — Primitives Page
 **Tool**: Copilot CLI &nbsp;|&nbsp; **Surface**: Terminal
-
-> **Prerequisite**: Issue 2 PR must be merged first.
 
 From the terminal, Copilot CLI scaffolds the Primitives child page using a natural language prompt. The page covers the eight primitives of GitHub Copilot customization. The suggestion is reviewed, executed, and committed — without ever leaving the command line.
 

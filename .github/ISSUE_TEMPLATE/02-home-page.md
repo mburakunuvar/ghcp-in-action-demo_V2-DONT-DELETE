@@ -19,6 +19,3 @@ The blank HTML files (`index.html`, `primitives.html`, `ape.html`) already exist
 
 ## Assigned to
 GitHub Coding Agent — assign this issue to Copilot via the Assignees panel on GitHub.com.
-
-## Completion
-Once the home page is built, merge the PR opened by the Coding Agent before moving on to the next issues.

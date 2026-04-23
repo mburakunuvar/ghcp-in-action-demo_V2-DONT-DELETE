@@ -13,8 +13,6 @@ Use `template-ape.txt` in the repo root for the content — the three acts of ag
 
 Source reference: https://github.com/Azure/git-ape
 
-> ⚠️ **Prerequisite**: The **Scaffold and Beautify the Home Page** issue must be completed and its PR merged first.
-
 ## Assigned to
 Agent Mode in IDE (VS Code) — use Copilot Chat in Agent Mode, referencing the existing pages for structure.
 

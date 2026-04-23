@@ -13,8 +13,6 @@ Use `template-primitives.txt` in the repo root for the content — the eight pri
 
 Source reference: https://github.com/microsoftnorman/customize-your-repo-with-github-copilot
 
-> ⚠️ **Prerequisite**: The **Scaffold and Beautify the Home Page** issue must be completed and its PR merged first, so the home page structure is available to follow.
-
 ## Assigned to
 Copilot CLI — use `gh copilot suggest` from the terminal to scaffold this page.
 

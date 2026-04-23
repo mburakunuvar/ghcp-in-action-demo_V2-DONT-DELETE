@@ -98,10 +98,7 @@ jobs:
           The blank HTML files (\`index.html\`, \`primitives.html\`, \`ape.html\`) already exist in the repo — no need to create the folder structure.
 
           ## Assigned to
-          GitHub Coding Agent — assign this issue to Copilot via the Assignees panel on GitHub.com.
-
-          ## Completion
-          Once the home page is built, merge the PR opened by the Coding Agent before moving on to the next issues."
+          GitHub Coding Agent — assign this issue to Copilot via the Assignees panel on GitHub.com."
 
       - name: Issue 3 — Primitives Page
         if: steps.check.outputs.skip == 'false'
@@ -119,8 +116,6 @@ jobs:
           Use \`template-primitives.txt\` in the repo root for the content — the eight primitives of GitHub Copilot customization.
 
           Source reference: https://github.com/microsoftnorman/customize-your-repo-with-github-copilot
-
-          > ⚠️ **Prerequisite**: The **Scaffold and Beautify the Home Page** issue must be completed and its PR merged first, so the home page structure is available to follow.
 
           ## Assigned to
           Copilot CLI — use \`gh copilot suggest\` from the terminal to scaffold this page.
@@ -148,8 +143,6 @@ jobs:
           Use \`template-ape.txt\` in the repo root for the content — the three acts of agentic platform engineering with GitHub Copilot.
 
           Source reference: https://github.com/Azure/git-ape
-
-          > ⚠️ **Prerequisite**: The **Scaffold and Beautify the Home Page** issue must be completed and its PR merged first.
 
           ## Assigned to
           Agent Mode in IDE (VS Code) — use Copilot Chat in Agent Mode, referencing the existing pages for structure.
