@@ -9,7 +9,7 @@ labels: "agent-mode"
 Build a child page for Agentic Platform Engineering (APE).
 
 The page should follow the same structure and style as the home page and Primitives page.
-Use `template-ape.txt` in the repo root for the content — the three acts of agentic platform engineering with GitHub Copilot.
+Use `template-ape.txt` in the repo root for the content — the Git-Ape multi-agent framework (deployment flow, agents, skills, execution modes).
 
 Source reference: https://github.com/Azure/git-ape
 

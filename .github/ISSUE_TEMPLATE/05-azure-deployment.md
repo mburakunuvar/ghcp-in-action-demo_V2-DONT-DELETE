@@ -14,7 +14,7 @@ The application is already deployed to Azure Static Web Apps and a CI/CD workflo
 > ```
 
 For this step:
-1. Confirm the **Home Page**, **Primitives Page**, and **APE Page** issues are closed
+1. Confirm the **Azure Static Web App Setup**, **Home Page**, **Primitives Page**, and **APE Page** issues are closed
 2. Verify the latest changes are live at the deployed URL
 3. If anything needs to be re-triggered, trigger the workflow manually using the command above
 
