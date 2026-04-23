@@ -5,9 +5,9 @@
 
 | Property | Value |
 |---|---|
-| **Subscription** | _pending deployment_ |
-| **Resource Group** | _pending deployment_ |
-| **Static Web App Name** | _pending deployment_ |
-| **Region** | _pending deployment_ |
-| **Live URL** | _pending deployment_ |
-| **Default Hostname** | _pending deployment_ |
+| **Subscription** | burak-MS (`9103cd46-543d-4b44-a957-f011acb997c6`) |
+| **Resource Group** | `demo-on-air` |
+| **Static Web App Name** | `demo-on-air` |
+| **Region** | West Europe |
+| **Live URL** | https://icy-field-03968a203.7.azurestaticapps.net |
+| **Default Hostname** | `icy-field-03968a203.7.azurestaticapps.net` |
