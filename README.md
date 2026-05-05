@@ -1,9 +1,5 @@
 # ghcp-in-action
 
-[![Use this template](https://img.shields.io/badge/Use%20this%20template-2ea44f?style=for-the-badge&logo=github&logoColor=white)](https://github.com/mburakunuvar/ghcp-in-action-demo_v2-DONT-DELETE/generate)
-
-> Click **"Use this template"** above to create your own copy of this repo and follow along with the demo.
-
 A hands-on quick demo showcasing **GitHub Copilot** working across three developer surfaces — the GitHub web UI, your IDE, and your terminal — to build, review, and deploy a mini web application about GitHub Copilot itself.
 
 ---
