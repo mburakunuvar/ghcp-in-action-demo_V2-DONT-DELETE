@@ -21,8 +21,8 @@ Replace placeholders before running commands.
 
 - [SUBSCRIPTION_ID]: Azure subscription ID
 - [SUBSCRIPTION_NAME]: Optional friendly name
-- [RESOURCE_GROUP]: Resource group name (example: live-demo-dryrun-rg)
-- [LOCATION]: Azure region (example: westeurope)
+- [RESOURCE_GROUP]: Resource group name (example: rg-live-demo-ghcp)
+- [LOCATION]: Azure region (example: swedencentral)
 - [STATIC_WEB_APP_NAME]: Static Web App name (example: live-demo-dryrun-swa)
 - [GITHUB_OWNER]: GitHub org/user (example: mburakunuvar)
 - [GITHUB_REPO]: Repository name (example: live-demo-dryrun)
